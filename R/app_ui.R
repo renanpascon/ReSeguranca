@@ -12,7 +12,6 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       mod_raw_table_ui("view")
-      # Remove this line to start building your UI
     )
   )
 }
