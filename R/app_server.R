@@ -14,9 +14,9 @@ app_server <- function(input, output, session) {
   r <- shiny::reactiveValues()
   r[["full_data"]] <- df
 
-  mod_raw_table_server("view",
-                       session = session,
-                       full_data = r$full_data)
+  mod_overview_server(id = "overview",
+                      session = session,
+                      r = r)
 
 
 }
