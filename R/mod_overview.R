@@ -10,6 +10,14 @@
 mod_overview_ui <- function(id) {
   ns <- NS(id)
   tagList(
+    bslib::card(
+      bslib::card_header("Select box"),
+      shiny::selectInput(
+        ns("evento"),
+        "Evento",
+        choices = NULL,
+        selected = NULL
+      )),
     mod_raw_table_ui(ns("table"))
 
   )
@@ -24,9 +32,25 @@ mod_overview_server <- function(id,
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    mod_raw_table_server(id = "table",
-                         session = session,
-                         full_data = r$full_data)
+    shiny::observeEvent(r$full_data$evento,{
+      shiny::updateSelectInput(inputId = "evento",
+                               session = session,
+                               choices = unique(r$full_data$evento))
+    })
+
+    shiny::observeEvent(input$evento,{
+      if (!is.null(input$evento) && input$evento != ""){
+        full_data <- r$full_data[r$full_data$evento %in% input$evento,]
+      } else {
+        full_data <- r$full_data
+
+      }
+
+      mod_raw_table_server(id = "table",
+                           input = input,
+                           session = session,
+                           full_data = full_data)
+    })
   })
 }
 

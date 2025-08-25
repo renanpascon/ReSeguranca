@@ -19,10 +19,17 @@ mod_raw_table_ui <- function(id) {
 #'
 #' @noRd
 mod_raw_table_server <- function(id,
+                                 input,
                                  session,
                                  full_data){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
+    # browser()
+
+    remove_cols <- sapply(colnames(full_data), FUN = function(x) !all(is.na(full_data[[x]]) | full_data[[x]] %in% ""))
+    display_cols <- colnames(full_data)[remove_cols]
+    display_cols <- display_cols[!display_cols %in% c("abrangencia","formulario")]
+    full_data <- full_data[,display_cols]
     output$table <- renderTable(head(full_data))
 
   })

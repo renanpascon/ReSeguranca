@@ -10,11 +10,14 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      bslib::navset_pill_list(
-        bslib::nav_panel(title = "Overview", mod_overview_ui("overview"))
-      )
-    )
+      bslib::page_sidebar(
+        title = "Segurança",
+        sidebar = bslib::sidebar(
+          mod_select_data_ui("select")
+          ),
+      mod_overview_ui("overview")))
   )
+
 }
 
 #' Add external Resources to the Application

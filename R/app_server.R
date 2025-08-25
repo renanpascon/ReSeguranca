@@ -12,11 +12,15 @@ app_server <- function(input, output, session) {
 
 # browser()
   r <- shiny::reactiveValues()
-  r[["full_data"]] <- df
+  r[["full_data"]] <- data.table::setDT(df)
 
   mod_overview_server(id = "overview",
                       session = session,
                       r = r)
+
+  mod_select_data_server(id = "select",
+                     session = session)
+
 
 
 }
